@@ -4,7 +4,7 @@ from typing import List
 from app.models.binary_serializable import BinarySerializable
 from app.libs.record_class import RecordClass
 from app.libs.record_type import RecordType
-from app.constant.encode_names import EncodeNames
+from app.constants.encode_names import EncodeNames
 from app.constants.decode_names import DecodeNames
 
 
