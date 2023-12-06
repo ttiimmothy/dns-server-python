@@ -1,3 +1,4 @@
+[![progress-banner](https://backend.codecrafters.io/progress/grep/28176ce0-63c3-4817-aa12-e6df9c6ea2f8)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
 [![progress-banner](https://backend.codecrafters.io/progress/dns-server/39025609-2eed-4e6e-a243-6f1c3510abda)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
 
 # DNS Server Python
