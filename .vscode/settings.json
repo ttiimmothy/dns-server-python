@@ -1,0 +1,33 @@
+{
+  "cSpell.words": [
+    "celerybeat",
+    "codecrafters",
+    "Connor",
+    "Crafters",
+    "cython",
+    "dmypy",
+    "htmlcov",
+    "ipynb",
+    "ipython",
+    "mkdocs",
+    "mypy",
+    "nosetests",
+    "pipenv",
+    "Pipfile",
+    "pybuilder",
+    "pycache",
+    "pyenv",
+    "pyflow",
+    "pypackages",
+    "pytest",
+    "pytype",
+    "ropeproject",
+    "scrapy",
+    "sdist",
+    "Spyder",
+    "spyderproject",
+    "spyproject",
+    "venv",
+    "webassets"
+  ]
+}

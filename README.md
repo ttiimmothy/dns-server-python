@@ -1,5 +1,8 @@
 [![progress-banner](https://backend.codecrafters.io/progress/dns-server/39025609-2eed-4e6e-a243-6f1c3510abda)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
 
+# DNS Server Python
+[![ci](https://github.com/ttiimmothy/dns-server-python/actions/workflows/ci.yml/badge.svg)](https://github.com/ttiimmothy/dns-server-python/actions/workflows/ci.yml)
+
 This is a starting point for Python solutions to the
 ["Build Your Own DNS server" Challenge](https://app.codecrafters.io/courses/dns-server/overview).
 
@@ -31,7 +34,11 @@ Time to move on to the next stage!
 Note: This section is for stages 2 and beyond.
 
 1. Ensure you have `python (3.11)` installed locally
-1. Run `./your_server.sh` to run your program, which is implemented in
+2. Run `./your_server.sh` to run your program, which is implemented in
    `app/main.py`.
-1. Commit your changes and run `git push origin master` to submit your solution
+3. Commit your changes and run `git push origin master` to submit your solution
    to CodeCrafters. Test output will be streamed to your terminal.
+
+## License
+
+DNS Server Python is licensed under [GNU General Public License v3.0](LICENSE).
