@@ -24,7 +24,7 @@ class RDATA(ABC):
 
     if t == RType.CNAME or t == RType.MB or t == RType.MD or t == RType.MF or t == RType.MG or t == RType.MR or t == RType.NS or t == RType.PTR:
       name = 'DOMAIN'
-    elif t == _:
+    else:
       name = t.name.upper()
 
     from importlib import import_module

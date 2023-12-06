@@ -8,7 +8,6 @@ from app.dns.rdata import RDATA
 from app.dns.encoding import Encoding
 
 RDATA_ARG = TypeVar('RDATA_ARG', RDATA, tuple[str | int, ...], str, int)
-
 logger = logging.getLogger(__name__)
 
 
@@ -102,7 +101,7 @@ class BaseRecord:
     t = RType(_type)
     if t == RType.A or t == RType.NS or t == RType.MD or t == RType.MF or t == RType.CNAME or t == RType.SOA or t == RType.MB or t == RType.MG or t == RType.MR or t == RType.NULL or t == RType.WKS or t == RType.PTR or t == RType.HINFO or t == RType.MINFO or t == RType.MX or t == RType.TXT:
       resource = ResourceRecord
-    elif t == _:
+    else:
       resource = BaseRecord
 
     return resource.from_bytes(data, offset=offset)
