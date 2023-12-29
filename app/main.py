@@ -10,89 +10,90 @@ logger = logging.getLogger(__name__)
 
 
 class DNSServer:
-    address = ('127.0.0.1', 2053)
-    # address = ('0.0.0.0', 2053)
+  address = ('127.0.0.1', 2053)
 
-    def __init__(self):
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.handle_arguments()
-        self.sock.bind(self.address)
-        logger.info(f'Listening on {self.address[0]}:{self.address[1]}')
+  # address = ('0.0.0.0', 2053)
 
-    def main(self) -> None:
-        resolver = self.arg.resolver if 'resolver' in self.arg else None
-        while True:
-            buf, source = self.sock.recvfrom(512)
-            if len(buf) == 0:
-                break
+  def __init__(self):
+    self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    self.handle_arguments()
+    self.sock.bind(self.address)
+    logger.info(f'Listening on {self.address[0]}:{self.address[1]}')
 
-            try:
-                message: Message = Message.from_bytes(buf)
+  def main(self) -> None:
+    resolver = self.arg.resolver if 'resolver' in self.arg else None
+    while True:
+      buf, source = self.sock.recvfrom(512)
+      if len(buf) == 0:
+        break
 
-                response = message.create_response(resolver=resolver)
+      try:
+        message: Message = Message.from_bytes(buf)
 
-                res = response.serialize()
-                self.sock.sendto(res, source)
-            except socket.timeout:
-                break
-            except DNSError as e:
-                logger.exception(e)
-                self._create_error_response(e, buf, source)
-            except Exception as e:
-                logger.exception(e)
-                break
+        response = message.create_response(resolver=resolver)
 
-    def _create_error_response(self, e: DNSError, buf: bytes,
-                               source: any) -> None:
-        from app.dns.header import Header
-        header = Header.from_bytes(buf)
-        header.flags.rcode = e.rcode.value
-        header.ancount = 0
-        header.nscount = 0
-        header.arcount = 0
-        response = Message(header=header)
-        self.sock.sendto(response.serialize(), source)
+        res = response.serialize()
+        self.sock.sendto(res, source)
+      except socket.timeout:
+        break
+      except DNSError as e:
+        logger.exception(e)
+        self._create_error_response(e, buf, source)
+      except Exception as e:
+        logger.exception(e)
+        break
 
-    def handle_arguments(self):
-        parser = argparse.ArgumentParser(
-            description="Starts the server with an optional specified "
-                        "resolver address."
-        )
+  def _create_error_response(self, e: DNSError, buf: bytes,
+                             source: any) -> None:
+    from app.dns.header import Header
+    header = Header.from_bytes(buf)
+    header.flags.rcode = e.rcode.value
+    header.ancount = 0
+    header.nscount = 0
+    header.arcount = 0
+    response = Message(header=header)
+    self.sock.sendto(response.serialize(), source)
 
-        parser.add_argument(
-            "--resolver",
-            type=self._parse_address,
-            required=False,
-            help="The resolver address in the format <ip>:<port>",
-        )
-        self.arg = parser.parse_args()
+  def handle_arguments(self):
+    parser = argparse.ArgumentParser(
+      description="Starts the server with an optional specified "
+                  "resolver address."
+    )
 
-    def _parse_address(self, address: str) -> tuple[str, int]:
-        """
-        Parses the address string and returns a tuple of (ip, port).
+    parser.add_argument(
+      "--resolver",
+      type=self._parse_address,
+      required=False,
+      help="The resolver address in the format <ip>:<port>",
+    )
+    self.arg = parser.parse_args()
 
-        :param address: The address string in the format 'ip:port'.
-        :type address: str
-        :rtype: tuple[str, int]
-        :return: A tuple containing the IP and port as separate elements.
-        :raises argparse.ArgumentTypeError: If the address is not in the
-                                            correct format.
-        """
+  def _parse_address(self, address: str) -> tuple[str, int]:
+    """
+    Parses the address string and returns a tuple of (ip, port).
 
-        try:
-            if address.find(':') < 0:
-                return address, 53
+    :param address: The address string in the format 'ip:port'.
+    :type address: str
+    :rtype: tuple[str, int]
+    :return: A tuple containing the IP and port as separate elements.
+    :raises argparse.ArgumentTypeError: If the address is not in the
+                                        correct format.
+    """
 
-            ip, port_str = address.split(":")
-            port = int(port_str)
-            return ip, port
-        except ValueError:
-            raise argparse.ArgumentTypeError(
-                "Address must be in the format 'ip:port'. "
-                f"Received: '{address}'"
-            )
+    try:
+      if address.find(':') < 0:
+        return address, 53
+
+      ip, port_str = address.split(":")
+      port = int(port_str)
+      return ip, port
+    except ValueError:
+      raise argparse.ArgumentTypeError(
+        "Address must be in the format 'ip:port'. "
+        f"Received: '{address}'"
+      )
 
 
 if __name__ == "__main__":
-    dns = DNSServer()
-    dns.main()
+  dns = DNSServer()
+  dns.main()
